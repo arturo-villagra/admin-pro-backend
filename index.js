@@ -1,10 +1,16 @@
 const { dbConnection }=require('./database/config');
 const express =require('express');
 const cors = require('cors');
+
 //Crear servidor express
 const app= express();
 
-app.use( (cors ));
+//configurar CORS
+app.use( cors ());
+
+//Lectura y parseo 
+app.use(express.json());
+
 
 
 require('dotenv').config();
@@ -14,13 +20,8 @@ dbConnection();
 //nr814gbcq0ey8Fjp
 
 //Rutas
-app.get( '/', (req, res)=>{
-
-    res.json({
-        ok:true,
-        msg:'Hola Mundo'
-    })
-});
+app.use('/api/usuarios', require('./routes/usuarios'));
+app.use('/api/login', require('./routes/auth'));
 
 
 app.listen(process.env.PORT,()=>{
